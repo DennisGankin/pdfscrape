@@ -3,6 +3,7 @@ import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 import argparse
+import valida
 
 URL = ''
 SUFFIX = "'.pdf'"
@@ -48,10 +49,12 @@ def main():
         with open(filename, 'wb') as f:
             f.write(requests.get(urljoin(URL,file_link['href'])).content)
 
-
 if __name__ == "__main__":
     #TODO: add progress bar
     #TODO: Might also extend to regex for different file 
+    #TODO: deal with tricky file downloads like (.pdf/download) -> could give this as a suffix
+    # or https://edu.epfl.ch/coursebook/fr/internet-analytics-COM-308
+    #TODO: chekc if url valid -- catch error if not
 
     parse_input()
 
