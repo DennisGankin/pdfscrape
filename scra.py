@@ -21,7 +21,7 @@ def parse_input():
     global SAVE_DIR
     SAVE_DIR = opts.dir
     global SUFFIX
-    SUFFIX = "." + opts.suf
+    SUFFIX = "'." + opts.suf +"'"
 
 
 def main():
