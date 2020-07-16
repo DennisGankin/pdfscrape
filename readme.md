@@ -1,10 +1,9 @@
 Web scraper for PDF files
 ---
 
+A webscraper to download all files with a certain suffix found on a given website. 
 
-This webscraper downloads all files with a certain suffix found on a given site. 
-
-Perfect to download all lecture notes, all excercises or whatever you need from the internet.
+Perfect to download lecture notes, excercise slides or whatever you need from the internet.
 
 ---
 ### Run
