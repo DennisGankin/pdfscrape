@@ -10,15 +10,19 @@ SAVE_DIR = ''
 
 def parse_input():
 
-    ap = argparse.ArgumentParser(description = "Download all PDF files from a website.")
+    ap = argparse.ArgumentParser(description = "Download all files with a certain suffix from a website.")
     ap.add_argument("-url", help = "Website url to download your files from", required = True)
     ap.add_argument("-dir", help = "Directory to save files to. Default is current directory", required = False, default="")
+    ap.add_argument("-suf", help = "File suffix to download. Default is pdf", required = False, default="pdf")
 
     opts = ap.parse_args()
     global URL 
     URL = opts.url
     global SAVE_DIR
     SAVE_DIR = opts.dir
+    global SUFFIX
+    SUFFIX = "." + opts.suf
+
 
 def main():
     if not os.path.exists(SAVE_DIR):
@@ -31,7 +35,7 @@ def main():
     soup = BeautifulSoup(response.text, "html.parser")    
     print ("Start")
 
-    for file_link in soup.select("a[href$='.pdf']"):
+    for file_link in soup.select("a[href$="+SUFFIX+"]"):
         #print("file",file_link)
 
         #Name the pdf files using the last portion of each link which are unique in this case, if not it's overwritten..
@@ -47,7 +51,6 @@ def main():
 
 if __name__ == "__main__":
     #TODO: add progress bar
-    #TODO: Might extend to different file endings. 
     #TODO: Might also extend to regex for different file 
 
     parse_input()
