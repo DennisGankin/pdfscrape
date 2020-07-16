@@ -3,7 +3,6 @@ import requests
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 import argparse
-import valida
 
 URL = ''
 SUFFIX = "'.pdf'"
