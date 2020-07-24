@@ -7,6 +7,8 @@ import argparse
 URL = ''
 SUFFIX = "'.pdf'"
 SAVE_DIR = '' 
+IN = None
+#TODO: add regex
 
 def parse_input():
 
@@ -14,6 +16,7 @@ def parse_input():
     ap.add_argument("-url", help = "Website url to download your files from", required = True)
     ap.add_argument("-dir", help = "Directory to save files to. Default is current directory", required = False, default="")
     ap.add_argument("-suf", help = "File suffix to download. Default is pdf", required = False, default="pdf")
+    ap.add_argument("-inc", help="Files to download need to include this", required=False, default=None)
 
     opts = ap.parse_args()
     global URL 
@@ -22,7 +25,8 @@ def parse_input():
     SAVE_DIR = opts.dir
     global SUFFIX
     SUFFIX = "'." + opts.suf +"'"
-
+    global IN
+    IN = opts.inc
 
 def main():
     if not os.path.exists(SAVE_DIR):
@@ -38,15 +42,17 @@ def main():
     for file_link in soup.select("a[href$="+SUFFIX+"]"):
         #print("file",file_link)
 
-        #Name the pdf files using the last portion of each link which are unique in this case, if not it's overwritten..
-        filename = os.path.join(SAVE_DIR,file_link['href'].split('/')[-1])
+        if IN == None or IN in file_link['href'].split('/')[-1]:
+            #Name the pdf files using the last portion of each link which are unique in this case, if not it's overwritten..
+            filename = os.path.join(SAVE_DIR,file_link['href'].split('/')[-1])
 
-        print("Downloading", filename)        
+            print("Downloading", filename)        
 
-        #TODO: check if file exists before writing.. what do we do then?
+            #TODO: check if file exists before writing.. what do we do then?
 
-        with open(filename, 'wb') as f:
-            f.write(requests.get(urljoin(URL,file_link['href'])).content)
+            with open(filename, 'wb') as f:
+                f.write(requests.get(urljoin(URL,file_link['href'])).content)
+
 
 if __name__ == "__main__":
     #TODO: add progress bar
